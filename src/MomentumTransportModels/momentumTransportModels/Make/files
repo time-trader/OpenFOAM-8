@@ -45,10 +45,12 @@ $(epsilonWallFunctions)/epsilonWallFunction/epsilonWallFunctionFvPatchScalarFiel
 
 omegaWallFunctions = $(wallFunctions)/omegaWallFunctions
 $(omegaWallFunctions)/omegaWallFunction/omegaWallFunctionFvPatchScalarField.C
+$(omegaWallFunctions)/omegaRoughWallFunction/omegaRoughWallFunctionFvPatchScalarField.C
 
 kqRWallFunctions = $(wallFunctions)/kqRWallFunctions
 $(kqRWallFunctions)/kqRWallFunction/kqRWallFunctionFvPatchFields.C
 $(kqRWallFunctions)/kLowReWallFunction/kLowReWallFunctionFvPatchScalarField.C
+$(kqRWallFunctions)/kRoughWallFunction/kRoughWallFunctionFvPatchScalarField.C
 
 v2WallFunctions = $(wallFunctions)/v2WallFunctions
 $(v2WallFunctions)/v2WallFunction/v2WallFunctionFvPatchScalarField.C
@@ -73,4 +75,4 @@ $(generalizedNewtonianViscosityModels)/HerschelBulkley/HerschelBulkley.C
 $(generalizedNewtonianViscosityModels)/powerLaw/powerLaw.C
 $(generalizedNewtonianViscosityModels)/strainRateFunction/strainRateFunction.C
 
-LIB = $(FOAM_LIBBIN)/libmomentumTransportModels
+LIB = $(FOAM_USER_LIBBIN)/libmomentumTransportModels
