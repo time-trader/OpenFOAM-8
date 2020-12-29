@@ -45,8 +45,9 @@ Usage
     \table
         Property     | Description             | Required    | Default value
         beta1        | Model coefficient       | no          | 0.075
+        betaStar     | Model coefficient       | no          | 0.09
         blended      | Blending switch         | no          | false
-        Ks
+        Ks           | Roughness height        | yes
     \endtable
 
     Example of the boundary condition specification:
@@ -54,6 +55,7 @@ Usage
     <patchName>
     {
         type            omegaRoughWallFunction;
+        Ks                              0.0001;
     }
     \endverbatim
 
@@ -95,6 +97,9 @@ protected:
 
         //- beta1 coefficient
         scalar beta1_;
+                        
+       //- betaStar coefficient
+        scalar betaStar_;
         
         //- Roughness height
         scalarField Ks_;

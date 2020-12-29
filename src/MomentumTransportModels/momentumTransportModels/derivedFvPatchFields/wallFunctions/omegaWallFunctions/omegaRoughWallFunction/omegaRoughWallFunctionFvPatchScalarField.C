@@ -212,8 +212,7 @@ void omegaRoughWallFunctionFvPatchScalarField::calculate
     
     label nRoughCells = 0;
     scalar KsPlusAve = 0; //using for debug
-    const scalar beta5 = pow(0.075, 0.5);
-    const scalar betaOmega_ = 0.0708; //TODO define in .H
+    
     
 
     // Set omega and G
@@ -269,8 +268,8 @@ void omegaRoughWallFunctionFvPatchScalarField::calculate
 							     * min( 1., pow(KsPlus/60., 1./4.));
 			
 			const scalar omegaVis = min(
-					    ut  / ( beta5 * nutw.kappa() * ds),
-					    6.*nuw[facei]/betaOmega_/y[facei]/y[facei]
+					    ut  / ( pow(betaStar_, 0.5) * nutw.kappa() * ds),
+					    6*nuw[facei]/(beta1_*sqr(y[facei]))
 					    );							
             /*	}
             	else
@@ -322,6 +321,7 @@ omegaRoughWallFunctionFvPatchScalarField::omegaRoughWallFunctionFvPatchScalarFie
     fixedValueFvPatchField<scalar>(p, iF),
     Ks_(p.size(), 0.0),
     beta1_(0.075),
+    betaStar_(0.09),
     blended_(false),
     G_(),
     omega_(),
@@ -341,6 +341,7 @@ omegaRoughWallFunctionFvPatchScalarField::omegaRoughWallFunctionFvPatchScalarFie
     fixedValueFvPatchField<scalar>(p, iF, dict),
     Ks_("Ks", dict, p.size()),
     beta1_(dict.lookupOrDefault<scalar>("beta1", 0.075)),
+    betaStar_(dict.lookupOrDefault<scalar>("betaStar", 0.09)),
     blended_(dict.lookupOrDefault<Switch>("blended", false)),
     G_(),
     omega_(),
@@ -364,6 +365,7 @@ omegaRoughWallFunctionFvPatchScalarField::omegaRoughWallFunctionFvPatchScalarFie
     fixedValueFvPatchField<scalar>(ptf, p, iF, mapper),
     Ks_(mapper(ptf.Ks_)),
     beta1_(ptf.beta1_),
+    betaStar_(ptf.betaStar_),
     blended_(ptf.blended_),
     G_(),
     omega_(),
@@ -381,6 +383,7 @@ omegaRoughWallFunctionFvPatchScalarField::omegaRoughWallFunctionFvPatchScalarFie
     fixedValueFvPatchField<scalar>(owfpsf),
     Ks_(owfpsf.Ks_),
     beta1_(owfpsf.beta1_),
+    betaStar_(owfpsf.betaStar_),
     blended_(owfpsf.blended_),
     G_(),
     omega_(),
@@ -399,6 +402,7 @@ omegaRoughWallFunctionFvPatchScalarField::omegaRoughWallFunctionFvPatchScalarFie
     fixedValueFvPatchField<scalar>(owfpsf, iF),
     Ks_(owfpsf.Ks_),
     beta1_(owfpsf.beta1_),
+    betaStar_(owfpsf.betaStar_),
     blended_(owfpsf.blended_),
     G_(),
     omega_(),
@@ -623,6 +627,7 @@ void omegaRoughWallFunctionFvPatchScalarField::write(Ostream& os) const
 {
     writeEntry(os, "Ks", Ks_);
     writeEntry(os, "beta1", beta1_);
+    writeEntry(os, "betaStar", betaStar_);
     writeEntry(os, "blended", blended_);
     fixedValueFvPatchField<scalar>::write(os);
 }
